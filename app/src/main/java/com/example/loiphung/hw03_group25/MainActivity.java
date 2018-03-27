@@ -22,10 +22,17 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList<App> appArrayList = new ArrayList<App>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new GetDataAsync().execute("https://itunes.apple.com/us/rss/toppaidapplications/limit=25/json");
+
+
+
     }//end oncreate
 
 
@@ -46,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
             this.pb = pb;
             this.listview = listView;
             context = activity;
+
+        }
+
+        public GetDataAsync(){
 
         }
 
@@ -86,17 +97,15 @@ public class MainActivity extends AppCompatActivity {
 
                         App a = new App();
 
-                        a.setSummary(appsJSONObject.getString("summary"));
-                        a.setName(appsJSONObject.optString("title"));
-                        a.setPrice(appsJSONObject.optString("im:price"));
-                        if(appsJSONObject.optString("urlToImage").startsWith("https"))
-                        {
-                            a.setImage(appsJSONObject.optString("urlToImage"));
-                        }
-                        a.setDate(appsJSONObject.optString("im:releaseDate"));
-                        /*Log.d("JsonName", "" + sourceJsonObject.getString("name"));
-                        Log.d("Jsonid", "" + sourceJsonObject.getString("id"));*/
+                        a.setSummary(appsJSONObject.optJSONObject("summary").getString("label"));
+                        a.setName(appsJSONObject.optJSONObject("im:name").optString("label"));
+                        a.setPrice(appsJSONObject.optJSONObject("im:price").getString("label"));
+                        a.setImage(appsJSONObject.optJSONArray("im:image").optJSONObject(0).optString("label"));
+                        a.setDate(appsJSONObject.optJSONObject("im:releaseDate").optString("label"));
 
+                        Log.d("Name", "-> " + appsJSONObject.optJSONObject("im:name").optString("label"));
+                        Log.d("Summary", "-> " + appsJSONObject.optJSONObject("summary").getString("label"));
+                        Log.d("Image", "->"+ appsJSONObject.optJSONArray("im:image").optJSONObject(0).optString("label"));
 
                         result.add(a);
                         pb.setProgress(pb.getProgress() + 1);
@@ -112,19 +121,21 @@ public class MainActivity extends AppCompatActivity {
 
 
             return result;
-        }
+        }//end do in background
 
         @Override
         protected void onProgressUpdate(Integer... values) {
 
 
 
-        }
+        }//end on progress
 
         protected void onPostExecute(ArrayList<App> result) {
 
+            appArrayList = result;
 
-        }
+
+        }//end on post
 
     } //end getdataasync
 
