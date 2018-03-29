@@ -101,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
                         a.setPrice(appsJSONObject.optJSONObject("im:price").getString("label"));
                         a.setImage(appsJSONObject.optJSONArray("im:image").optJSONObject(0).optString("label"));
                         a.setDate(appsJSONObject.optJSONObject("im:releaseDate").optString("label"));
+                        a.setLink(appsJSONObject.optJSONObject("link").optJSONObject("attributes").optString("href"));
 
                         Log.d("Name", "-> " + appsJSONObject.optJSONObject("im:name").optString("label"));
                         Log.d("Summary", "-> " + appsJSONObject.optJSONObject("summary").getString("label"));
                         Log.d("Image", "->"+ appsJSONObject.optJSONArray("im:image").optJSONObject(0).optString("label"));
                         Log.d("Summary", "-> " + appsJSONObject.optJSONObject("im:releaseDate").getString("label"));
+                        Log.d("App Link", "-> " + appsJSONObject.optJSONObject("link").optJSONObject("attributes").optString("href"));
 
                         result.add(a);
 

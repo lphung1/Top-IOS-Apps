@@ -7,7 +7,7 @@ package com.example.loiphung.hw03_group25;
 public class App {
 
 
-    String image, summary, name, price, date = null;
+    String image, summary, name, price, date, link = null;
 
     public App() {
     }
@@ -47,6 +47,18 @@ public class App {
     public void setDate(String date){
         this.date = date;
 
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
 }
