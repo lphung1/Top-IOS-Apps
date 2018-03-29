@@ -22,13 +22,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<App> appArrayList = new ArrayList<App>();
+    public static ArrayList<App> appArrayList = new ArrayList<App>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         new GetDataAsync().execute("https://itunes.apple.com/us/rss/toppaidapplications/limit=25/json");
 
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }//end oncreate
 
 
-    class GetDataAsync extends AsyncTask<String, Integer, ArrayList<App>> {
+    public class GetDataAsync extends AsyncTask<String, Integer, ArrayList<App>> {
 
         private ProgressDialog dialog;
         AlertDialog alert;
@@ -106,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("Name", "-> " + appsJSONObject.optJSONObject("im:name").optString("label"));
                         Log.d("Summary", "-> " + appsJSONObject.optJSONObject("summary").getString("label"));
                         Log.d("Image", "->"+ appsJSONObject.optJSONArray("im:image").optJSONObject(0).optString("label"));
+                        Log.d("Summary", "-> " + appsJSONObject.optJSONObject("im:releaseDate").getString("label"));
 
                         result.add(a);
-                        pb.setProgress(pb.getProgress() + 1);
-                        publishProgress(pb.getProgress());
+
                     }
 
                 }
@@ -133,7 +132,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<App> result) {
 
             appArrayList = result;
+            Log.d("app arraylist", "->" + appArrayList.get(0).getName());
 
+            ListView listView = findViewById(R.id.listView);
+
+            CustomAdapter adapter = new CustomAdapter(getApplicationContext(), R.layout.app_row, MainActivity.appArrayList);
+            listView.setAdapter(adapter);
 
         }//end on post
 
