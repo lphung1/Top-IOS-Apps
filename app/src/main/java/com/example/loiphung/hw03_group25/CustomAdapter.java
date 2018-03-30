@@ -1,6 +1,7 @@
 package com.example.loiphung.hw03_group25;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -35,7 +36,10 @@ public class CustomAdapter extends ArrayAdapter<App> {
         convertView = LayoutInflater.from(getContext()).inflate(R.layout.app_row, parent, false);
         TextView appname = convertView.findViewById(R.id.textViewApp);
         ImageView appImage = convertView.findViewById(R.id.appImageView);
+        ImageView starImage = convertView.findViewById(R.id.starImageView);
 
+
+        starImage.setImageResource(R.drawable.whitestar);
         appname.setText(app.getName());
         Picasso.get().load(app.getImage()).into(appImage);
 
